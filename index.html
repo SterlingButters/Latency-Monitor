@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <div id="graph" style="width:1000px;height:500px;"></div>
+
+  <script>
+
+    var layout = {
+      title: 'Round Trip-Time',
+      xaxis: {
+        title: 'Time',
+      },
+      yaxis: {
+        title: 'RTT [milliseconds]',
+      }
+    }
+
+    var data = [{
+      x: [new Date()],
+      y: [0],
+      mode: 'lines',
+      fill: 'tozeroy',
+      line: {color: '#80CAF6'}
+    }]
+
+    Plotly.plot('graph', data, layout);
+
+    var socket = io('http://127.0.0.1:3000');
+    var cnt = 0;
+    var interval = socket.on('latency', function (data) {
+      console.log(data.time);
+      console.log(data.latency);
+      var time = new Date(data.time); // TODO: Why wont this work for 'x' ?
+      var test = new Date();
+      var latency = data.latency;
+      var update = {
+        x: [[test]],
+        y: [[latency]]
+      }
+      var olderTime = time.setMinutes(time.getMinutes - 1);
+      var futureTime = time.setMinutes(time.getMinutes + 1);
+      var minuteView = {
+           xaxis: {
+             type: 'date',
+             range: [olderTime, futureTime]
+            }
+          };
+
+      Plotly.relayout('graph', minuteView);
+      Plotly.extendTraces('graph', update, [0])
+
+      if (cnt === 100) clearInterval(interval);
+    });
+  </script>
+
+</body>
+</html>
