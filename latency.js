@@ -53,7 +53,7 @@ io.on('connection', function (socket) {
     console.log(clientHostname);
 
     // var target = clientHostname; // TODO: May need 'req.ip' later
-    var target = "68.109.231.108";
+    // var target = "";
 
     setInterval(function() {
       session.pingHost(target, function (error, target, sent, rcvd) {
