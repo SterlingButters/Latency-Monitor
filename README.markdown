@@ -1,6 +1,6 @@
 # Plotly latency-monitor ![](https://img.shields.io/badge/version-1.0.0-yellow.svg)
 
-![alt text](https://github.com/SterlingButters/plotly-latency-monitot/blob/master/Latency.gif)
+![alt text](https://github.com/SterlingButters/plotly-latency-monitor/blob/master/Latency.gif)
 
 ## About
 This repo utilizes the npm `express` & `net-ping` packages to determine the external ip address(es)
